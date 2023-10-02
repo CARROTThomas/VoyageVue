@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" href="">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -23,9 +23,24 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end text-light" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li>
-                            <a class="nav-link text-light" href="{{ path('app_test_index') }}">Test</a>
-                        </li>
+                        {% if app.user %}
+                            <li>
+                                <a class="nav-link text-light" href="{{ path('app_property') }}">Ajouter votre établissement</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-light" href="{{ path('app_logout') }}">logout</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="nav-link text-light" href="{{ path('app_register') }}">register</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-light" href="{{ path('app_login') }}">login</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-light" href="{{ path('app_test_index') }}">Test</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

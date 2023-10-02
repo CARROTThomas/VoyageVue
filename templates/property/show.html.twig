@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <div class="container-lg">
+
+            <div class="">
+                <a class="btn btn-secondary" href="{{ path('app_property') }}">back to list</a>
+            </div>
+
+            <h1 class="mt-5">{{ property.name }} / {{ property.establishment.name }}</h1>
+
+            <div class="mt-5">
+                <h2>Description :</h2>
+                <hr>
+                <p class="fw-bold">{{ property.description }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

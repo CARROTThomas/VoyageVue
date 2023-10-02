@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <div class="container-lg">
+            <h1>Ajouter / Editer / Supprimer un Établissement</h1>
+
+            <div class="mt-5">
+                <h2>Vos établissement :</h2>
+                <div class="">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Establishment</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for property in properties %}
+
+                            <tr>
+                                <td>{{ property.id }}</td>
+                                <td>{{ property.name }}</td>
+                                <td>{{ property.establishment.name }}</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a class="btn btn-info" href="{{ path('app_show_property', {'id':property.id}) }}">Show</a>
+                                        <a class="btn btn-warning" href="">Edit</a>
+                                        {{ include('property/_delete_form.html.twig') }}
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        {% else %}
+                            <tr>
+                                <td colspan="5">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <hr>
+                <a class="btn btn-primary mt-1" href="{{ path('app_new_property') }}">Ajouter un nouveau établissement</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
