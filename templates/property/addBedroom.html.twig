@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <div class="container-lg">
+
+            <h1>Ajouter une Chambres à votre Établissement</h1>
+            <hr>
+
+            {{ form_start(form) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.m2) }}
+            {{ form_row(form.price) }}
+
+                <ul class="image"
+                    data-index="{{ form.image|length > 0 ? form.image|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(form.image.vars.prototype)|e('html_attr') }}"
+                ></ul>
+
+                <button type="button" class="btn border add_item_link" data-collection-holder-class="image">Add an Image</button>
+
+                <button class="btn btn-success" type="submit">Create</button>
+            {{ form_end(form) }}
+
+            <a class="btn btn-secondary mt-2" href="{{ path('app_show_property', {id:property.id}) }}">back</a>
+        </div>
+    </div>
+
+
+
+    <script>
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('li');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+        };
+
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+    </script>
+{% endblock %}

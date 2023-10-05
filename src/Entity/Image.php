@@ -20,8 +20,6 @@ class Image
         return $this->id;
     }
 
-
-
     // ... other fields
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -36,6 +34,12 @@ class Image
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'image')]
+    private ?Info $info = null;
+
+    #[ORM\ManyToOne(inversedBy: 'image')]
+    private ?Bedroom $bedroom = null;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -80,5 +84,29 @@ class Image
     public function getImageSize(): ?int
     {
         return $this->imageSize;
+    }
+
+    public function getInfo(): ?Info
+    {
+        return $this->info;
+    }
+
+    public function setInfo(?Info $info): static
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function getBedroom(): ?Bedroom
+    {
+        return $this->bedroom;
+    }
+
+    public function setBedroom(?Bedroom $bedroom): static
+    {
+        $this->bedroom = $bedroom;
+
+        return $this;
     }
 }

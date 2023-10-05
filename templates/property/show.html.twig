@@ -10,12 +10,81 @@
                 <a class="btn btn-secondary" href="{{ path('app_property') }}">back to list</a>
             </div>
 
-            <h1 class="mt-5">{{ property.name }} / {{ property.establishment.name }}</h1>
+            <div class="d-flex justify-content-between">
+                <div class="w-50">
+                    <h1 class="mt-5">{{ property.name }} / {{ property.establishment.name }}</h1>
+
+                    <div class="mt-5">
+                        <h2>Description :</h2>
+                        <hr>
+                        <p class="fw-100">{{ property.description }}</p>
+                    </div>
+
+                    <hr>
+                    <div class="">
+                        {% for info in property.infos %}
+                            <div class="mt-3 d-flex align-items-center gap-3">
+                                <p class="m-0">Lien :</p>
+                                <a href="{{ info.urlProperty }}">{{ info.urlProperty }}</a>
+                            </div>
+                            <div class="row">
+                                {% for image in info.image %}
+                                    <div class="col-4">
+                                        <img class="m-1" src="{{ vich_uploader_asset(image, 'imageFile') | imagine_filter('vignette') }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="w-25 d-flex flex-column">
+                    <div class="">
+                        <h2>Coordonnées :</h2>
+                        {% for situation in property.situations %}
+                            <div class="p-3 border rounded border-dark">
+                                <p>Pays : {{ situation.country }}</p>
+                                <p>Ville : {{ situation.city }}</p>
+                                <p>Code Postale : {{ situation.zipCode }}</p>
+                                <p>Addresse : {{ situation.address }}</p>
+                            </div>
+                        {% endfor %}
+                        <a class="btn btn-primary mt-1" href="#">Edit</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
 
             <div class="mt-5">
-                <h2>Description :</h2>
-                <hr>
-                <p class="fw-bold">{{ property.description }}</p>
+                <h2>Chambres :</h2>
+                <div class="row">
+                    {% for chambre in property.bedrooms %}
+                        <div class="col-3 d-flex align-items-start justify-content-between">
+                            <div class="card" style="width: 18rem;">
+
+                                {% if chambre.image.0 is not null %}
+                                    <img src="{{ vich_uploader_asset(chambre.image.0, 'imageFile') | imagine_filter('vignette') }}" class="card-img-top" alt="image Chambre">
+                                {% else %}
+                                    <img src="https://cdn.discordapp.com/attachments/907008782377300010/1158130218268106752/fdHTF9.png?ex=651e6c11&is=651d1a91&hm=db3b3dc60dfa64d54f15adf207120d8100ce82ae5f8b95cf50181cf4a0942d42&" class="card-img-top" alt="...">
+                                {% endif %}
+
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ chambre.name }}</h5>
+                                    <p class="card-text">La chambre : {{ chambre.name }} est proposé à {{ chambre.price }}€ pour {{ chambre.m2 }} m2</p>
+                                    <div class="">
+                                        <a href="#" class="btn btn-primary">Show</a>
+                                        <a href="{{ path('app_delete_property_bedroom', {'id':chambre.id}) }}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+                <a class="btn btn-success mt-3 mb-3" href="{{ path('app_addBedroom_property', {'id':property.id}) }}">Ajouter un type de chambre à cette Établissement</a>
             </div>
         </div>
     </div>

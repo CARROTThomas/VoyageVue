@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +29,22 @@ class Property
     #[ORM\ManyToOne(inversedBy: 'properties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Establishment $establishment = null;
+
+    #[ORM\OneToMany(mappedBy: 'property_id', targetEntity: Situation::class, orphanRemoval: true)]
+    private Collection $situations;
+
+    #[ORM\OneToMany(mappedBy: 'property_id', targetEntity: Info::class, orphanRemoval: true)]
+    private Collection $infos;
+
+    #[ORM\OneToMany(mappedBy: 'property_id', targetEntity: Bedroom::class, orphanRemoval: true)]
+    private Collection $bedrooms;
+
+    public function __construct()
+    {
+        $this->situations = new ArrayCollection();
+        $this->infos = new ArrayCollection();
+        $this->bedrooms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +95,96 @@ class Property
     public function setEstablishment(?Establishment $establishment): static
     {
         $this->establishment = $establishment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Situation>
+     */
+    public function getSituations(): Collection
+    {
+        return $this->situations;
+    }
+
+    public function addSituation(Situation $situation): static
+    {
+        if (!$this->situations->contains($situation)) {
+            $this->situations->add($situation);
+            $situation->setPropertyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSituation(Situation $situation): static
+    {
+        if ($this->situations->removeElement($situation)) {
+            // set the owning side to null (unless already changed)
+            if ($situation->getPropertyId() === $this) {
+                $situation->setPropertyId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Info>
+     */
+    public function getInfos(): Collection
+    {
+        return $this->infos;
+    }
+
+    public function addInfo(Info $info): static
+    {
+        if (!$this->infos->contains($info)) {
+            $this->infos->add($info);
+            $info->setPropertyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInfo(Info $info): static
+    {
+        if ($this->infos->removeElement($info)) {
+            // set the owning side to null (unless already changed)
+            if ($info->getPropertyId() === $this) {
+                $info->setPropertyId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bedroom>
+     */
+    public function getBedrooms(): Collection
+    {
+        return $this->bedrooms;
+    }
+
+    public function addBedroom(Bedroom $bedroom): static
+    {
+        if (!$this->bedrooms->contains($bedroom)) {
+            $this->bedrooms->add($bedroom);
+            $bedroom->setPropertyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBedroom(Bedroom $bedroom): static
+    {
+        if ($this->bedrooms->removeElement($bedroom)) {
+            // set the owning side to null (unless already changed)
+            if ($bedroom->getPropertyId() === $this) {
+                $bedroom->setPropertyId(null);
+            }
+        }
 
         return $this;
     }

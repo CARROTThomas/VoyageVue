@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <div class="container-lg">
+            <h1>Ajouter des Infos sur votre Établissement</h1>
+            <hr>
+
+            {{ include('property/_form.html.twig') }}
+
+            <a class="btn btn-secondary mt-2" href="{{ path('app_property') }}">back to list</a>
+        </div>
+    </div>
+
+{% endblock %}
