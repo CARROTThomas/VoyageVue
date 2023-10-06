@@ -16,11 +16,8 @@ class BedController extends AbstractController
     #[Route('/bed', name: 'app_bed')]
     public function index(): Response
     {
-        return $this->render('bed/index.html.twig', [
-            'controller_name' => 'BedController',
-        ]);
+        return $this->render('bed/index.html.twig', []);
     }
-
 
     #[Route('/bed/new/{id}', name: 'app_bed_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, Bedroom $bedroom): Response
@@ -46,6 +43,29 @@ class BedController extends AbstractController
         ]);
     }
 
+    #[Route('/bed/edit/{id}', name: 'app_bed_edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, Bed $bed): Response
+    {
+
+        $form = $this->createForm(BedType::class, $bed);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('app_showBedroom_property', ['id'=>$bed->getBedroomId()->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('bed/edit.html.twig', [
+            'bed' => $bed,
+            'form' => $form,
+        ]);
+    }
+
+
+
+
+
+
 
 
     #[Route('/bed/delete/{id}', name: 'app_bed_delete')]
@@ -54,6 +74,6 @@ class BedController extends AbstractController
         $entityManager->remove($bed);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_show_property', ['id'=>$bed->getBedroomId()->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_showBedroom_property', ['id'=>$bed->getBedroomId()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
