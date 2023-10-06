@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BedCategory index{% endblock %}
+
+{% block body %}
+
+
+    <div class="container-lg">
+        <h1>BedCategory index</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bed_category in bed_categories %}
+                <tr>
+                    <td>{{ bed_category.id }}</td>
+                    <td>{{ bed_category.name }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('app_bed_category_show', {'id': bed_category.id}) }}">show</a>
+                        <a class="btn btn-warning" href="{{ path('app_bed_category_edit', {'id': bed_category.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-success" href="{{ path('app_bed_category_new') }}">Create new</a>
+    </div>
+
+{% endblock %}

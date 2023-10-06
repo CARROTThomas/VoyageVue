@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <div class="container-lg">
+
+            <div class="">
+                <a class="btn btn-secondary" href="{{ path('app_show_property', {'id':bedroom.propertyId.id}) }}">back to list</a>
+            </div>
+
+
+            <div class="">
+
+
+                <div class="">
+                    <h1><span class="fw-bolder">{{ bedroom.name }}</span>, cette chambre présent dans cette établissment fait :</h1>
+                    <ul>
+                        <li>
+                            <p><span class="fw-bolder">{{ bedroom.m2 }}</span> m2</p>
+                        </li>
+                        <li>
+                            <p><span class="fw-bolder">{{ bedroom.price }}</span> €/nuit</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <hr>
+
+
+
+
+                <div class="row">
+                    {% for image in bedroom.image %}
+                        <div class="col-4">
+                            <img class="m-1" src="{{ vich_uploader_asset(image, 'imageFile') | imagine_filter('vignette') }}" alt="images chambre">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <h2>Cette chambre contient ces lits :</h2>
+                <p>Total lit : <span class="fw-bolder">{{ bedroom.beds.count }}</span></p>
+                {% for bed in bedroom.beds %}
+                    <div class="col-4">
+                        <div class="border border-dark rounded p-2">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="">
+                                    <h3>{{ bed.typeBed.name }}</h3>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <p class="m-0">nombre de lit de ce genre :</p>
+                                        <h3 class="fw-bolder m-0">{{ bed.numberOfBed }}</h3>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column justify-content-around">
+                                    <a class="btn btn-danger m-1" href="">Delete</a>
+                                    <a class="btn btn-warning m-1" href="">Edit</a>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="">
+                <a class="btn btn-primary m-1" href="{{ path('app_bed_new', {'id':bedroom.id}) }}">add bed</a>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+{% endblock %}

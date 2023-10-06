@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit BedCategory{% endblock %}
+
+{% block body %}
+    <div class="container-lg">
+        <h1>Edit BedCategory</h1>
+
+        {{ include('bed_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a class="btn btn-secondary" href="{{ path('app_bed_category_index') }}">back to list</a>
+
+        {{ include('bed_category/_delete_form.html.twig') }}
+    </div>
+
+{% endblock %}

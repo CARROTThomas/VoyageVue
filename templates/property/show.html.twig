@@ -59,8 +59,8 @@
             <hr>
 
             <div class="mt-5">
-                <h2>Chambres :</h2>
-                <div class="row">
+                <h2>Chambres présentes dans cette établissement :</h2>
+                <div class="row mt-3">
                     {% for chambre in property.bedrooms %}
                         <div class="col-3 d-flex align-items-start justify-content-between">
                             <div class="card" style="width: 18rem;">
@@ -72,10 +72,21 @@
                                 {% endif %}
 
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ chambre.name }}</h5>
+                                    <div class="d-flex flex-column align-items-center justify-content-between">
+                                        <h5 class="card-title">{{ chambre.name }}</h5>
+                                        <h5 class="card-title"><span>({{ chambre.numberOfRoom }} chambres)</span></h5>
+                                    </div>
+                                    <hr>
                                     <p class="card-text">La chambre : {{ chambre.name }} est proposé à {{ chambre.price }}€ pour {{ chambre.m2 }} m2</p>
                                     <div class="">
-                                        <a href="#" class="btn btn-primary">Show</a>
+                                        <ul>
+                                            {% for bed in chambre.beds %}
+                                                <li>{{ bed.typeBed.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="">
+                                        <a href="{{ path('app_showBedroom_property', {'id':chambre.id}) }}" class="btn btn-primary">Show</a>
                                         <a href="{{ path('app_delete_property_bedroom', {'id':chambre.id}) }}" class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>

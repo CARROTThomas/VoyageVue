@@ -31,9 +31,16 @@ class Bedroom
     #[ORM\OneToMany(mappedBy: 'bedroom', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private Collection $image;
 
+    #[ORM\OneToMany(mappedBy: 'bedroom_id', targetEntity: Bed::class, orphanRemoval: true)]
+    private Collection $beds;
+
+    #[ORM\Column]
+    private ?int $numberOfRoom = null;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
+        $this->beds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,48 @@ class Bedroom
                 $image->setBedroom(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bed>
+     */
+    public function getBeds(): Collection
+    {
+        return $this->beds;
+    }
+
+    public function addBed(Bed $bed): static
+    {
+        if (!$this->beds->contains($bed)) {
+            $this->beds->add($bed);
+            $bed->setBedroomId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBed(Bed $bed): static
+    {
+        if ($this->beds->removeElement($bed)) {
+            // set the owning side to null (unless already changed)
+            if ($bed->getBedroomId() === $this) {
+                $bed->setBedroomId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNumberOfRoom(): ?int
+    {
+        return $this->numberOfRoom;
+    }
+
+    public function setNumberOfRoom(int $numberOfRoom): static
+    {
+        $this->numberOfRoom = $numberOfRoom;
 
         return $this;
     }

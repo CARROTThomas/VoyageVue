@@ -142,6 +142,7 @@ class PropertyController extends AbstractController
             $bedroom->setM2($bedroom->getM2());
             $bedroom->setName($bedroom->getName());
             $bedroom->setPrice($bedroom->getPrice());
+            $bedroom->setNumberOfRoom($bedroom->getNumberOfRoom());
 
             $bedroom->setPropertyId($property);
 
@@ -163,7 +164,13 @@ class PropertyController extends AbstractController
         ]);
     }
 
-
+    #[Route('/property/showBedroom/{id}', name: 'app_showBedroom_property')]
+    public function showBedroom(Bedroom $bedroom)
+    {
+        return $this->render('property/showBedroom.html.twig', [
+            'bedroom'=>$bedroom,
+        ]);
+    }
 
     #[Route('/property/delete/bedroom/{id}', name: 'app_delete_property_bedroom')]
     public function deleteBedroom(EntityManagerInterface $entityManager, Bedroom $bedroom): Response

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New BedCategory{% endblock %}
+
+{% block body %}
+    <div class="container-lg">
+        <h1>Create new BedCategory</h1>
+
+        {{ include('bed_category/_form.html.twig') }}
+
+        <a class="btn btn-secondary" href="{{ path('app_bed_category_index') }}">back to list</a>
+    </div>
+
+{% endblock %}

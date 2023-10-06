@@ -16,6 +16,7 @@ class BedroomType extends AbstractType
             ->add('name')
             ->add('m2')
             ->add('price')
+            ->add('numberOfRoom')
             ->add('image', CollectionType::class, [
                 'entry_type'=>ImageType::class,
                 'allow_add'=>true,
