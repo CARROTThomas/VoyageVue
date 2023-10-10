@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BedroomController extends AbstractController
 {
     #[Route('/bedroom/addBedroom/{id}', name: 'app_addBedroom_property')]
-    public function addBedroom(Request $request, EntityManagerInterface $entityManager, Property $property)
+    public function add(Request $request, EntityManagerInterface $entityManager, Property $property)
     {
 
         $bedroom = new Bedroom();
@@ -49,15 +49,33 @@ class BedroomController extends AbstractController
     }
 
     #[Route('/bedroom/showBedroom/{id}', name: 'app_showBedroom_property')]
-    public function showBedroom(Bedroom $bedroom)
+    public function show(Bedroom $bedroom)
     {
         return $this->render('bedroom/showBedroom.html.twig', [
             'bedroom'=>$bedroom,
         ]);
     }
 
+    #[Route('/bedroom/edit/{id}', name: 'app_bedroom_edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, Bedroom $bedroom) {
+
+        $form = $this->createForm(BedroomType::class, $bedroom);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_show_property', ['id'=>$bedroom->getPropertyId()->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('bedroom/edit.html.twig', [
+            'bedroom' => $bedroom,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/bedroom/delete/bedroom/{id}', name: 'app_delete_property_bedroom')]
-    public function deleteBedroom(EntityManagerInterface $entityManager, Bedroom $bedroom): Response
+    public function delete(EntityManagerInterface $entityManager, Bedroom $bedroom): Response
     {
         $entityManager->remove($bedroom);
         $entityManager->flush();

@@ -5,10 +5,50 @@
 {% block body %}
 <div class="container">
     <div class="mt-5">
-        <h1 class="text-primary text-center">Prochainement disponible</h1>
-        <h2 class="text-secondary text-center">Systeme de réservation d'hotel</h2>
 
-        <div class="d-flex justify-content-center"></div>
+
+        <form
+                action="{{ path('app_home_search') }}"
+                method="get"
+                class="d-flex justify-content-center mt-5 mb-5"
+        >
+            <input class="form-control w-50" name="search" type="search" placeholder="Search by name ...">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+
+
+
+        <div class="row d-flex">
+
+            {% for property in properties %}
+                <div class="card p-0" style="width: 18rem;">
+
+                    {% if property.infos.0 is not null %}
+
+                            {% if property.infos.0.image.0 is not null %}
+                                <img width="100%" src="{{ vich_uploader_asset(property.infos.0.image.0, 'imageFile') }}" class="card-img-top" alt="image Chambre">
+                            {% else %}
+                                <img src="https://cdn.discordapp.com/attachments/907008782377300010/1158130218268106752/fdHTF9.png?ex=651e6c11&is=651d1a91&hm=db3b3dc60dfa64d54f15adf207120d8100ce82ae5f8b95cf50181cf4a0942d42&" class="card-img-top" alt="...">
+                            {% endif %}
+                    {% else %}
+                        <img src="https://cdn.discordapp.com/attachments/907008782377300010/1158130218268106752/fdHTF9.png?ex=651e6c11&is=651d1a91&hm=db3b3dc60dfa64d54f15adf207120d8100ce82ae5f8b95cf50181cf4a0942d42&" class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ property.name }}</h5>
+                        <h6>{{ property.establishment.name }}</h6>
+                        <p class="card-text limited-text">{{ property.description }}</p>
+
+
+                        {% if property.infos.0 is not null %}
+                            <a href="{{ path('app_show_property', {'id':property.id}) }}" class="btn btn-success">See More</a>
+                            <a href="{{ property.infos.0.urlProperty }}" class="btn btn-primary">See {{ property.establishment.name }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
+
+

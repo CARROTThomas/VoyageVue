@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    <div class="container-lg">
+        <h1>Edit Situation</h1>
+
+        {{ include('property/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a class="btn btn-secondary" href="{{ path('app_show_property', {'id':situation.propertyId.id}) }}">back to list</a>
+    </div>
+
+{% endblock %}

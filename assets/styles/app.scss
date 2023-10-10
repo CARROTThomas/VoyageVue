@@ -1,6 +1,16 @@
 @import "~bootstrap/scss/bootstrap.scss";
-
+/* Option 2: Import via CSS */
 
 body {
     background-color: lightgray;
+}
+
+
+
+
+.limited-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }

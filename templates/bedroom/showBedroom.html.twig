@@ -1,4 +1,4 @@
-{% extends '../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Inscription{% endblock %}
 
@@ -57,10 +57,15 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex flex-column justify-content-around">
-                                    <a class="btn btn-danger m-1" href="{{ path('app_bed_delete', {'id':bed.id}) }}">Delete</a>
-                                    <a class="btn btn-warning m-1" href="{{ path('app_bed_edit', {'id':bed.id}) }}">Edit</a>
-                                </div>
+                                {% if app.user %}
+                                    {% if app.user == bedroom.propertyId.owner %}
+                                        <div class="d-flex flex-column justify-content-around">
+                                            <a class="btn btn-danger m-1" href="{{ path('app_bed_delete', {'id':bed.id}) }}">Delete</a>
+                                            <a class="btn btn-warning m-1" href="{{ path('app_bed_edit', {'id':bed.id}) }}">Edit</a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+
 
                             </div>
 
@@ -69,10 +74,15 @@
                     </div>
                 {% endfor %}
             </div>
-            
-            <div class="">
-                <a class="btn btn-primary m-1" href="{{ path('app_bed_new', {'id':bedroom.id}) }}">add bed</a>
-            </div>
+
+            {% if app.user %}
+                {% if app.user == bedroom.propertyId.owner %}
+                    <div class="">
+                        <a class="btn btn-primary m-1" href="{{ path('app_bed_new', {'id':bedroom.id}) }}">add bed</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+
 
 
 

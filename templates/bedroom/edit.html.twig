@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BedroomController!{% endblock %}
+
+{% block body %}
+
+    <div class="container-lg">
+        <h1>Edit Test</h1>
+
+        {{ include('bed/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a class="btn btn-secondary" href="{{ path('app_showBedroom_property', {'id':bedroom.id}) }}">back to list</a>
+    </div>
+
+{% endblock %}

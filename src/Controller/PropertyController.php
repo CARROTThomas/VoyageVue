@@ -30,6 +30,7 @@ class PropertyController extends AbstractController
 
 
 
+    // Name + Description + établissement
     #[Route('/property/new', name: 'app_new_property')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -54,7 +55,26 @@ class PropertyController extends AbstractController
             'form'=>$form,
         ]);
     }
+    #[Route('/property/edit/{id}', name: 'app_property_edit')]
+    public function editProperty(Request $request, EntityManagerInterface $entityManager, Property $property): Response
+    {
+        $form = $this->createForm(PropertyType::class, $property);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('property/edit.html.twig', [
+            'property' => $property,
+            'form' => $form,
+        ]);
+    }
+
+
+    // Situation
     #[Route('/property/addSituation/{id}', name: 'app_property_addSituation')]
     public function addSituation(Request $request, EntityManagerInterface $entityManager, Property $property): Response
     {
@@ -84,7 +104,26 @@ class PropertyController extends AbstractController
             'form'=>$form,
         ]);
     }
+    #[Route('/property/editSituation/{id}', name: 'app_property_editSituation')]
+    public function editSituation(Request $request, EntityManagerInterface $entityManager, Situation $situation): Response
+    {
+        $form = $this->createForm(SituationType::class, $situation);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('property/editSituation.html.twig', [
+            'situation' => $situation,
+            'form' => $form,
+        ]);
+    }
+
+
+    // Url + image
     #[Route('/property/addInfos/{id}', name: 'app_property_addInfo')]
     public function addInfos(Request $request, EntityManagerInterface $entityManager, Property $property): Response
     {
@@ -116,9 +155,26 @@ class PropertyController extends AbstractController
             'form'=>$form,
         ]);
     }
+    #[Route('/property/editInfos/{id}', name: 'app_property_editInfos')]
+    public function editInfos(Request $request, EntityManagerInterface $entityManager, Info $info): Response
+    {
+        $form = $this->createForm(InfoType::class, $info);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('property/editInfos.html.twig', [
+            'info' => $info,
+            'form' => $form,
+        ]);
+    }
 
 
-
+    // Show Propriété
     #[Route('/property/{id}/show', name: 'app_show_property')]
     public function show(Property $property)
     {
@@ -127,7 +183,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
-
+    // delete un objet
     #[Route('/property/delete/{id}', name: 'app_delete_property', methods: ['POST'])]
     public function delete(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
