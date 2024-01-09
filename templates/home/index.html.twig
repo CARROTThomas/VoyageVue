@@ -24,20 +24,18 @@
                 <div class="card p-0" style="width: 18rem;">
 
                     {% if property.infos.0 is not null %}
-
-                            {% if property.infos.0.image.0 is not null %}
-                                <img width="100%" src="{{ vich_uploader_asset(property.infos.0.image.0, 'imageFile') }}" class="card-img-top" alt="image Chambre">
-                            {% else %}
-                                <img src="https://cdn.discordapp.com/attachments/907008782377300010/1158130218268106752/fdHTF9.png?ex=651e6c11&is=651d1a91&hm=db3b3dc60dfa64d54f15adf207120d8100ce82ae5f8b95cf50181cf4a0942d42&" class="card-img-top" alt="...">
-                            {% endif %}
+                        {% if property.infos.0.image.0 is defined and property.infos.0.image.0 is not null%}
+                            <img width="100%" src="{{ vich_uploader_asset(property.infos.0.image.0, 'imageFile') }}" class="card-img-top" alt="image Chambre">
+                        {% else %}
+                            <img src="https://st3.depositphotos.com/23594922/31822/v/450/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" class="card-img-top" alt="...">
+                        {% endif %}
                     {% else %}
-                        <img src="https://cdn.discordapp.com/attachments/907008782377300010/1158130218268106752/fdHTF9.png?ex=651e6c11&is=651d1a91&hm=db3b3dc60dfa64d54f15adf207120d8100ce82ae5f8b95cf50181cf4a0942d42&" class="card-img-top" alt="...">
+                        <img src="https://st3.depositphotos.com/23594922/31822/v/450/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" class="card-img-top" alt="...">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ property.name }}</h5>
                         <h6>{{ property.establishment.name }}</h6>
                         <p class="card-text limited-text">{{ property.description }}</p>
-
 
                         {% if property.infos.0 is not null %}
                             <a href="{{ path('app_show_property', {'id':property.id}) }}" class="btn btn-success">See More</a>

@@ -5,7 +5,11 @@ body {
     background-color: lightgray;
 }
 
-
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 
 .limited-text {
